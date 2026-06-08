@@ -1,35 +1,47 @@
 // ============================================================
-//  detail-remover.content.js (Reactive )
+//  detail-remover.content.js (Reactive + Layout Fix)
 // ============================================================
 
 (function detailRemover() {
-    const SELECTOR = '[id*="watermark"]'; // Menggunakan *= agar lebih fleksibel mencari kata "watermark" di ID
+    const WATERMARK_SELECTOR = '[id*="watermark"]';
+    const MAIN_BODY_SELECTOR = '#mainbodydiv.modal-content.wh-bg.android-device-layout';
 
-    // Fungsi utama untuk menghapus element dengan ID yang mengandung "watermark"
-    function removeWatermarks() {
-        const targets = document.querySelectorAll(SELECTOR);
+    // Fungsi utama untuk memanipulasi DOM
+    function applyDOMFixes() {
+        // 1. Hapus elemen watermark jika ditemukan
+        const targets = document.querySelectorAll(WATERMARK_SELECTOR);
         if (targets.length > 0) {
             targets.forEach(el => {
                 console.log(`[Detail Remover] Menghapus elemen: #${el.id}`);
                 el.remove();
             });
         }
+
+        // 2. Paksa ukuran spesifik pada mainbodydiv
+        const mainBody = document.querySelector(MAIN_BODY_SELECTOR);
+        if (mainBody) {
+            // Kita cek dulu agar tidak terus-menerus menimpa style jika ukurannya sudah benar
+            if (mainBody.style.width !== '363px' || mainBody.style.height !== '708px') {
+                console.log("[Detail Remover] Menyesuaikan ukuran #mainbodydiv menjadi 363x708.");
+                mainBody.style.width = '363px';
+                mainBody.style.height = '708px';
+            }
+        }
     }
 
-    // 1. Jalankan sekali di awal load halaman web
-    removeWatermarks();
+    // Jalankan sekali di awal saat halaman dimuat
+    applyDOMFixes();
 
-    // 2. Pantau perubahan DOM menggunakan MutationObserver
+    // Pantau perubahan DOM menggunakan MutationObserver agar perubahan tetap bertahan
     const observer = new MutationObserver((mutations) => {
-        // Jika ada perubahan pada struktur node, jalankan fungsi hapus
-        removeWatermarks();
+        applyDOMFixes();
     });
 
-    // Mulai mengamati seluruh dokumen
+    // Mulai mengamati seluruh dokumen body dan sub-elemennya
     observer.observe(document.body, {
         childList: true,
         subtree: true
     });
 
-    console.log("[Detail Remover] Observer aktif memantau watermark...");
+    console.log("[Detail Remover] Observer aktif memantau watermark dan layout...");
 })();
