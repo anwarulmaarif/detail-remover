@@ -5,7 +5,7 @@
 (function detailRemover() {
     const SELECTOR = '[id*="watermark"]'; // Menggunakan *= agar lebih fleksibel mencari kata "watermark" di ID
 
-    // Fungsi utama untuk menghapus elemen
+    // Fungsi utama untuk menghapus element dengan ID yang mengandung "watermark"
     function removeWatermarks() {
         const targets = document.querySelectorAll(SELECTOR);
         if (targets.length > 0) {
