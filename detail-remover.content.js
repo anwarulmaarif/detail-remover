@@ -16,7 +16,7 @@
         }
     }
 
-    // 1. Jalankan sekali di awal load halaman
+    // 1. Jalankan sekali di awal load halaman web
     removeWatermarks();
 
     // 2. Pantau perubahan DOM menggunakan MutationObserver
