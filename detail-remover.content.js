@@ -1,5 +1,5 @@
 // ============================================================
-//  detail-remover.content.js (Reactive Version)
+//  detail-remover.content.js (Reactive )
 // ============================================================
 
 (function detailRemover() {
